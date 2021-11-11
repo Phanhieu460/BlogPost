@@ -23,7 +23,7 @@ const AddPost = () => {
       category: category,
     };
     dispatch(post.doPost(data));
-    // reset();
+    reset();
   };
   return (
     <div>

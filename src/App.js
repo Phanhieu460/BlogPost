@@ -7,6 +7,8 @@ import Login from "./components/Login/Login";
 import Register from "./components/Register/Register";
 import EditPost from "./Post/UpdatePost";
 import SeePost from "./Post/SeePost";
+import LoginAntd from "./components/Login/LoginAntd";
+import RegisterAntd from "./components/Register/RegisterAntd";
 
 function App() {
   return (
@@ -15,8 +17,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} exact />
         <Route path="/addpost" element={<AddPost />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<LoginAntd />} />
+        <Route path="/register" element={<RegisterAntd />} />
         <Route path="/post/:postId" element={<SeePost />} />
         <Route path="/post/:postId/edit" element={<EditPost />} />
       </Routes>

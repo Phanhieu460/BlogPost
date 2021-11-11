@@ -1,11 +1,17 @@
 import * as types from "../types/postType";
 
 const initialState = {
+  isLoading: true,
   posts: [],
 };
 
 const postReducer = (state = initialState, action) => {
   switch (action.type) {
+    case types.SET_LOADING:
+      return {
+        ...state,
+        isLoading: action.payload,
+      };
     case types.ADD_POST:
       state = { ...state, posts: [...state.posts, action.payload] };
       return state;

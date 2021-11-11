@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate, useParams } from "react-router-dom";
 import { Container, Row, Button, Col } from "react-bootstrap";
 import Navigation from "../components/Navigation";
 import * as post from "../redux/actions/index";
@@ -67,7 +67,7 @@ const EditPost = () => {
               <div className="form-group">
                 <input
                   type="submit"
-                  className="btn btn-dark btn-block"
+                  className="btn btn-danger btn-block"
                   value="Update Post"
                 />
               </div>

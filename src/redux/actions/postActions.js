@@ -1,6 +1,13 @@
 import * as types from "../types/postType";
 import firebase from "../../config/firebase";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+toast.configure();
 
+export const setLoading = (data) => ({
+  type: types.SET_LOADING,
+  payload: data,
+});
 export const addPost = (data) => ({
   type: types.ADD_POST,
   payload: data,
@@ -26,15 +33,16 @@ export const doPost = (data) => {
       .then(async (res) => {
         // console.log(res);
         const document = await res.get();
-        const postData = { data: document.data(), id: document.id };
+        const postData = { postData: document.data(), id: document.id };
         dispatch(addPost(postData));
-        alert("Post created successfully");
+        toast.success("Post created successfully");
       })
       .catch((err) => console.log(err));
   };
 };
 export const fetchPost = () => {
   return (dispatch) => {
+    dispatch(setLoading(true));
     firebase
       .firestore()
       .collection("posts")
@@ -42,27 +50,26 @@ export const fetchPost = () => {
       .then((posts) => {
         const allPosts = [];
         posts.forEach((post) => {
-          const data = { postData: post.data(), postId: post.id };
-          allPosts.push(data);
+          const postData = { postData: post.data(), postId: post.id };
+          allPosts.push(postData);
         });
         dispatch(getPost(allPosts));
+        dispatch(setLoading(false));
       })
       .catch((err) => console.log(err));
   };
 };
-export const removePost = (postId) => {
-  return (dispatch) => {
-    firebase
-      .firestore()
-      .collection("posts")
-      .doc(postId)
-      .delete()
-      .then(() => {
-        dispatch(deletePost(postId));
-        alert("Succesfully deleted the post");
-      })
-      .catch((err) => console.log(err));
-  };
+export const removePost = (postId) => (dispatch) => {
+  firebase
+    .firestore()
+    .collection("posts")
+    .doc(postId)
+    .delete()
+    .then(() => {
+      dispatch(deletePost(postId));
+      toast.success("Succesfully deleted the post");
+    })
+    .catch((err) => console.log(err));
 };
 export const updatePostData = (prevPost, postId, data) => {
   return (dispatch) => {
@@ -76,7 +83,7 @@ export const updatePostData = (prevPost, postId, data) => {
       .update({ title, description, category })
       .then(() => {
         dispatch(updatePost({ postId, updatePost: prevPost }));
-        alert("Update Successfully");
+        toast.success("Update Successfully");
       })
       .catch((err) => console.log(err));
   };
